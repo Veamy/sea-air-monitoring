@@ -3,3 +3,5 @@ node_modules
 storybook-static
 coverage
 package-lock.json
+README.en.md
+README.uk.md
