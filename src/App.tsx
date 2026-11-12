@@ -1,12 +1,22 @@
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Theme } from '@carbon/react';
+import { ShellLayout } from './layout/ShellLayout';
 import { UI_THEME } from './theme/theme';
+
+/** Temporary stand-in until the event log view is added. */
+function EventLogPlaceholder() {
+  return <h1>Журнал подій</h1>;
+}
 
 export function App() {
   return (
     <Theme theme={UI_THEME}>
-      <div style={{ minHeight: '100vh', background: 'var(--cds-background)' }}>
-        <h1>Моніторинг обстановки</h1>
-      </div>
+      <Routes>
+        <Route element={<ShellLayout />}>
+          <Route path="/" element={<EventLogPlaceholder />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </Theme>
   );
 }
