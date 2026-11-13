@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import type { FilterField } from './EventFilters';
 import {
   EMPTY_FILTER,
   EVENT_STATUSES,
@@ -19,8 +20,8 @@ const PARAM = {
   status: 'status',
   from: 'from',
   to: 'to',
-  text: 'q',
-  selected: 'event',
+  q: 'q',
+  event: 'event',
 } as const;
 
 function pick<T extends string>(values: readonly T[], raw: string | null): T | '' {
@@ -40,6 +41,8 @@ export interface EventFilterState {
   text: string;
   selectedId: string | null;
   setParam: (key: keyof typeof PARAM, value: string) => void;
+  /** Sets one filter field from the filter panel (URL key names). */
+  setFilterField: (field: FilterField, value: string) => void;
   clearFilters: () => void;
   select: (id: string | null) => void;
 }
@@ -53,8 +56,8 @@ export function useEventFilter(): EventFilterState {
   const zoneId = params.get(PARAM.zone) ?? '';
   const fromLocal = params.get(PARAM.from) ?? '';
   const toLocal = params.get(PARAM.to) ?? '';
-  const text = params.get(PARAM.text) ?? '';
-  const selectedId = params.get(PARAM.selected);
+  const text = params.get(PARAM.q) ?? '';
+  const selectedId = params.get(PARAM.event);
 
   const filter = useMemo<EventFilter>(
     () => ({
@@ -84,20 +87,25 @@ export function useEventFilter(): EventFilterState {
     [setParams],
   );
 
+  const setFilterField = useCallback(
+    (field: FilterField, value: string) => setParam(field, value),
+    [setParam],
+  );
+
   const clearFilters = useCallback(() => {
     // Keeps the selected event: clearing filters must not lose the operator's place (R3, R5).
     setParams(
       (prev) => {
         const next = new URLSearchParams();
-        const selected = prev.get(PARAM.selected);
-        if (selected) next.set(PARAM.selected, selected);
+        const selected = prev.get(PARAM.event);
+        if (selected) next.set(PARAM.event, selected);
         return next;
       },
       { replace: true },
     );
   }, [setParams]);
 
-  const select = useCallback((id: string | null) => setParam('selected', id ?? ''), [setParam]);
+  const select = useCallback((id: string | null) => setParam('event', id ?? ''), [setParam]);
 
   return {
     filter,
@@ -109,6 +117,7 @@ export function useEventFilter(): EventFilterState {
     text,
     selectedId,
     setParam,
+    setFilterField,
     clearFilters,
     select,
   };
