@@ -1,0 +1,24 @@
+/* Application-level styles on top of Carbon tokens (colors come from --cds-* variables). */
+
+.event-table__select {
+  background: none;
+  border: 0;
+  color: var(--cds-link-primary);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.event-table__select:focus-visible {
+  outline: 2px solid var(--cds-focus);
+  outline-offset: 2px;
+}
+
+.event-table__row--high td:first-child {
+  box-shadow: inset 4px 0 0 var(--cds-support-error);
+}
+
+.event-table__row--selected td {
+  background-color: var(--cds-layer-selected);
+}

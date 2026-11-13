@@ -3,6 +3,7 @@ import { Theme } from '@carbon/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 import '@carbon/styles/css/styles.css';
+import '../src/styles/app.css';
 import { createQueryClient } from '../src/api/queryClient';
 import { UI_THEME } from '../src/theme/theme';
 
