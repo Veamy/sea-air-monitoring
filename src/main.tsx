@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 import '@carbon/styles/css/styles.css';
+import './styles/app.css';
 import { App } from './App';
 import { createQueryClient } from './api/queryClient';
 
