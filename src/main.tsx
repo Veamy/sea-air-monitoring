@@ -6,6 +6,7 @@ import '@carbon/styles/css/styles.css';
 import './styles/app.css';
 import { App } from './App';
 import { createQueryClient } from './api/queryClient';
+import { ROUTER_FUTURE } from './routerFuture';
 
 const queryClient = createQueryClient();
 
@@ -19,7 +20,7 @@ void enableMocks().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
+        <BrowserRouter future={ROUTER_FUTURE}>
           <App />
         </BrowserRouter>
       </QueryClientProvider>
