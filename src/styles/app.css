@@ -123,3 +123,28 @@
   padding: 0 1rem;
   white-space: nowrap;
 }
+
+/* Narrow widths (1024 px and up): the table scrolls inside its own container, never the page. */
+.event-log__main .cds--data-table-content {
+  overflow-x: auto;
+}
+
+.event-log__main td,
+.event-log__main th {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1279px) {
+  .event-detail {
+    max-width: 100%;
+  }
+}
+
+/* Keyboard users see a clear ring on every control (N2). */
+.cds--btn:focus-visible,
+.cds--select-input:focus-visible,
+.cds--text-input:focus-visible,
+.cds--search-input:focus-visible {
+  outline: 2px solid var(--cds-focus);
+  outline-offset: 2px;
+}
