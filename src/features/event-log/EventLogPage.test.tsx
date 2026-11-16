@@ -77,9 +77,9 @@ describe('main scenario: filter, select, change status', () => {
     expect(tableRows()).toHaveLength(anomalies.length + 1);
 
     // 2. select the newest anomaly
-    const target = anomalies.sort((a, b) => b.detectedAt.localeCompare(a.detectedAt))[0];
-    await user.click(screen.getByRole('button', { name: target.id }));
-    expect(screen.getByRole('heading', { name: `Подія ${target.id}` })).toBeInTheDocument();
+    const picked = anomalies.sort((a, b) => b.detectedAt.localeCompare(a.detectedAt))[0];
+    await user.click(screen.getByRole('button', { name: picked.id }));
+    expect(screen.getByRole('heading', { name: `Подія ${picked.id}` })).toBeInTheDocument();
 
     // 3. close it; the filter and the selection stay
     await user.selectOptions(screen.getByLabelText('Новий статус'), 'closed');
@@ -89,12 +89,12 @@ describe('main scenario: filter, select, change status', () => {
       expect(screen.getByRole('button', { name: 'Зберегти статус' })).toBeDisabled(),
     );
     expect(screen.getByLabelText('Тип')).toHaveValue('anomaly');
-    expect(screen.getByRole('heading', { name: `Подія ${target.id}` })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: `Подія ${picked.id}` })).toBeInTheDocument();
     expect(screen.getAllByText('Закрита').length).toBeGreaterThan(0);
 
     // 4. the counter reflects the closed event (R8)
     const expectedAfter = countUnprocessedHighPriority(
-      seed.map((e) => (e.id === target.id ? { ...e, status: 'closed' as const } : e)),
+      seed.map((e) => (e.id === picked.id ? { ...e, status: 'closed' as const } : e)),
     );
     await waitFor(() =>
       expect(

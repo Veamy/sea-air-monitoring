@@ -29,17 +29,17 @@ export function createHandlers(initial: SystemEvent[] = createSeedEvents()) {
       if (!EVENT_STATUSES.includes(body.status as EventStatus)) {
         return HttpResponse.json({ message: 'Unknown status' }, { status: 400 });
       }
-      const target = events.find((e) => e.id === params.id);
-      if (!target) {
+      const found = events.find((e) => e.id === params.id);
+      if (!found) {
         return HttpResponse.json({ message: 'Event not found' }, { status: 404 });
       }
 
       const status = body.status as EventStatus;
       const updated: SystemEvent = {
-        ...target,
+        ...found,
         status,
         history: [
-          ...target.history,
+          ...found.history,
           { status, changedAt: new Date().toISOString(), operatorId: MOCK_OPERATOR_ID },
         ],
       };
